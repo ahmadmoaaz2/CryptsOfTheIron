@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 .idea
+.floo
+.flooignore
+/.idea
 
 # Log file
 *.log
