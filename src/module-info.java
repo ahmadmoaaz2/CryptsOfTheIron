@@ -3,5 +3,5 @@ module JavaFinalProject {
     requires javafx.fxml;
     requires java.sql;
     requires sqlite.jdbc;
-    opens ca.crypts.sample;
+    opens ca.crypts;
 }

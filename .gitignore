@@ -4,6 +4,8 @@
 .floo
 .flooignore
 /.idea
+out
+/out
 
 # Log file
 *.log

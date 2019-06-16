@@ -19,11 +19,11 @@ public class Main extends Application {
         fxmlLoader.setLocation(getClass().getResource("homepage.fxml"));
         Parent root = fxmlLoader.load();
         this.primaryStage.setTitle("Crypts of The Angry Irons");
-        this.primaryStage.setScene(new Scene(root, 900, 450));
+        this.primaryStage.setScene(new Scene(root, 900, 460));
         this.primaryStage.setResizable(false);
         this.primaryStage.show();
         ((LoginController) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
-}
+    }
 
     public static void main(String[] args) {
         launch(args);
