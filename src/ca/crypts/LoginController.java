@@ -1,6 +1,5 @@
-package sample;
+package ca.crypts;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,7 +21,7 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class Controller implements Initializable {
+public class LoginController implements Initializable, Controller {
     @FXML
     public TextField userName;
     @FXML
@@ -33,6 +32,13 @@ public class Controller implements Initializable {
     public CheckBox shown;
     @FXML
     public Pane container;
+    @FXML
+    public TextField signUpName;
+    @FXML
+    public PasswordField signUpPasswordHidden;
+    @FXML
+    public PasswordField signUpConfirmPassword;
+
     private boolean userAuthenticated = false;
     private String name;
     private String password;
@@ -46,7 +52,7 @@ public class Controller implements Initializable {
         Parent root = fxmlLoader.load();
         this.primaryStage.setTitle("Crypts Of the Angry Irons - Login");
         this.primaryStage.getScene().setRoot(root);
-        ((Controller) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
+        ((LoginController) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
 
     }
 
@@ -56,7 +62,16 @@ public class Controller implements Initializable {
         Parent root = fxmlLoader.load();
         this.primaryStage.setTitle("Crypts Of the Angry Irons - Games");
         this.primaryStage.getScene().setRoot(root);
-        ((Controller) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
+        ((LoginController) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
+    }
+
+    public void getSignInPage() throws Exception {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("signup.fxml"));
+        Parent root = fxmlLoader.load();
+        this.primaryStage.setTitle("Crypts Of the Angry Irons - Sign Up");
+        this.primaryStage.getScene().setRoot(root);
+        ((LoginController) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
     }
 
     public void getHomePage() throws Exception {
@@ -65,7 +80,7 @@ public class Controller implements Initializable {
         Parent root = fxmlLoader.load();
         this.primaryStage.setTitle("Crypts Of the Angry Irons");
         this.primaryStage.getScene().setRoot(root);
-        ((Controller) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
+        ((LoginController) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
     }
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -99,6 +114,7 @@ public class Controller implements Initializable {
             fileData = fileData.substring(0, fileData.length() - 1 - 1);
             System.out.println(fileData);
             localfile.write(fileData);
+            localfile.close();
         } catch (IOException e) {
             System.out.println(e.toString());
             new Scanner(System.in).nextLine();
@@ -135,7 +151,7 @@ public class Controller implements Initializable {
 
     public void readFileData() {
         try {
-            File file = new File(Controller.class.getResource("data.txt").getFile());
+            File file = new File(LoginController.class.getResource("data.txt").getFile());
             Scanner scanner = new Scanner(file);
             ArrayList<String> fileData = new ArrayList<>();
             while (scanner.hasNextLine()) {
@@ -177,4 +193,5 @@ public class Controller implements Initializable {
     public void quit() throws Exception {
         getHomePage();
     }
+
 }

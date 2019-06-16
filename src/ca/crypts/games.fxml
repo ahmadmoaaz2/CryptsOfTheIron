@@ -8,7 +8,7 @@
 
 <AnchorPane fx:id="container" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="sample.Controller"
+            fx:controller="ca.crypts.LoginController"
             prefHeight="400.0" prefWidth="600.0">
 
 </AnchorPane>

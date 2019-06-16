@@ -1,5 +1,7 @@
 module JavaFinalProject {
     requires javafx.controls;
     requires javafx.fxml;
-    opens sample;
+    requires java.sql;
+    requires sqlite.jdbc;
+    opens ca.crypts.sample;
 }
