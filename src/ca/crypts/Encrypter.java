@@ -86,11 +86,11 @@ public class Encrypter {
             int position = Arrays.asList(Encrypter.DECRYPTED).indexOf(letter);
             encryptedString = encryptedString.concat(decrypted[position]);
         }
-        return ("%" + Integer.toHexString(EncryptedListName) + "$" + Integer.toHexString(rotateAmount) + "#" + Integer.toHexString(rotateDirection) + "_").concat(encryptedString);
+        return (Integer.toHexString(EncryptedListName) + "$" + Integer.toHexString(rotateAmount) + "#" + Integer.toHexString(rotateDirection) + "_").concat(encryptedString);
     }
 
     public static String decrypt(String string) {
-        int encryptedListName = Integer.parseInt(string.substring(string.indexOf("%") + 1, string.indexOf("$")), 16);
+        int encryptedListName = Integer.parseInt(string.substring(1, string.indexOf("$")), 16);
         int rotateAmount = Integer.parseInt(string.substring(string.indexOf("$") + 1, string.indexOf("#")), 16);
         boolean rotateRightTrue = Integer.parseInt(string.substring(string.indexOf("#") + 1, string.indexOf("_")), 16) < 1001;
         string = string.substring(string.indexOf("_") + 1);

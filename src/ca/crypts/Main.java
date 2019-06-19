@@ -5,8 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.BufferedReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Main extends Application {
@@ -14,6 +17,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         this.primaryStage = primaryStage;
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("homepage.fxml"));
@@ -22,7 +26,19 @@ public class Main extends Application {
         this.primaryStage.setScene(new Scene(root, 900, 460));
         this.primaryStage.setResizable(false);
         this.primaryStage.show();
-        ((LoginController) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
+        ((Controller) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + System.getProperty("user.dir") + "/appData.db");
+        Statement statement = connection.createStatement();
+        ResultSet rememberUserFromSettings = statement.executeQuery("SELECT rememberUser from settings");
+        rememberUserFromSettings.next();
+        if(rememberUserFromSettings.getBoolean("rememberUser")){
+            String usersID = rememberUserFromSettings.getString("ID");
+            ((Controller) fxmlLoader.getController()).setUserID(usersID);
+        } else {
+            ((Controller) fxmlLoader.getController()).setUserID(null);
+        }
+        statement.close();
+        connection.close();
     }
 
     public static void main(String[] args) {
@@ -36,8 +52,14 @@ public class Main extends Application {
                 "CREATE TABLE IF NOT EXISTS users (" +
                 "   ID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "   NAME varchar(60) NOT NULL," +
-                "   PASSWORD varchar(150) NOT NULL)"
+                "   PASSWORD varchar(150) NOT NULL);"
         );
+        statement.execute(
+                "CREATE TABLE IF NOT EXISTS settings (" +
+                        " rememberUser BOOLEAN NOT NULL," +
+                        " ID INTEGER, FOREIGN KEY (ID) REFERENCES users(ID));"
+        );
+        statement.execute("INSERT INTO settings (rememberUser) VALUES (false)");
         statement.close();
         connection.close();
     }
@@ -46,6 +68,7 @@ public class Main extends Application {
         Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + System.getProperty("user.dir") + "/appData.db");
         Statement statement = connection.createStatement();
         statement.execute("DROP TABLE IF EXISTS users");
+        statement.execute("DROP TABLE IF EXISTS settings");
         statement.close();
         connection.close();
     }
