@@ -57,7 +57,7 @@
                 <Insets left="10.0" right="10.0" />
             </GridPane.margin>
         </CheckBox>
-        <CheckBox mnemonicParsing="false" onAction="#rememberUser" text="Remember Me" textFill="WHITE" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+        <CheckBox mnemonicParsing="false" fx:id="rememberUser" text="Remember Me" textFill="WHITE" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4" />
         <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints />

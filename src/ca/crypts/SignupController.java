@@ -1,16 +1,9 @@
 package ca.crypts;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.paint.Paint;
+import javafx.scene.control.*;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class SignupController extends Controller implements Authenticates {
@@ -28,7 +21,8 @@ public class SignupController extends Controller implements Authenticates {
     PasswordField userPasswordHiddenConfirm;
     @FXML
     TextField userPasswordShownConfirm;
-    boolean rememberUser = false;
+    @FXML
+    CheckBox rememberUser;
     String name = null;
     String password = null;
 
@@ -44,13 +38,7 @@ public class SignupController extends Controller implements Authenticates {
     }
 
     @Override
-    public void rememberUser(){
-        this.rememberUser = !rememberUser;
-    }
-
-    @Override
     public void authenticateUser() throws Exception {
-
         Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + System.getProperty("user.dir") + "/appData.db");
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * from users");
@@ -67,20 +55,48 @@ public class SignupController extends Controller implements Authenticates {
                     if (userPasswordShown.getText().equals(userPasswordShownConfirm.getText())) {
                         statement.execute("INSERT INTO users (name, password) values ('" +
                                 userName.getText() + "', '" + Encrypter.encrypt(userPasswordShown.getText()) + "')");
+                        if (rememberUser.isSelected()) {
+                            new Thread(() -> {
+                                try {
+                                    ResultSet results = statement.executeQuery("SELECT * from users where NAME='"+userName.getText()+"'");
+                                    results.next();
+                                    int foundID = results.getInt("ID");
+                                    ResultSet rememberUserFromSettings = statement.executeQuery("SELECT rememberUser FROM settings");
+                                    if (rememberUserFromSettings.next() && !rememberUserFromSettings.getBoolean("rememberUser")) {
+                                        statement.execute("UPDATE settings set rememberUser=true, ID=" + foundID + " where rememberUser=false");
+                                    } else if (rememberUserFromSettings.getBoolean("rememberUser")) {
+                                        statement.execute("update settings set ID=" + foundID + " where rememberUser=true");
+                                    }
+                                } catch (SQLException e) {
+                                    System.out.println(e.getMessage());
+                                }
+                            }).start();
+                        } else {
+                            statement.execute("UPDATE settings set rememberUser=false");
+                        }
                         getGamesPage();
                     } else {
-                        mainText.setText("Passwords Don't Match");
-                        mainText.setTextFill(Paint.valueOf("red"));
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setTitle("Error: Passwords Don't Match");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Password and Confirm Password don't match. Please retype your password.");
+                        alert.showAndWait();
                     }
                 }
             } else {
-                mainText.setText("Username must be < 5 and > 29");
-                mainText.setTextFill(Paint.valueOf("red"));
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Error: Invalid Username");
+                alert.setHeaderText(null);
+                alert.setContentText("Username must be between 5 and 29 characters");
+                alert.showAndWait();
             }
         }
         else {
-            mainText.setText("Username is Taken");
-            mainText.setTextFill(Paint.valueOf("red"));
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error: Username Taken");
+            alert.setHeaderText(null);
+            alert.setContentText("Username is already in use. Please pick a different Username");
+            alert.showAndWait();
         }
         statement.close();
         connection.close();

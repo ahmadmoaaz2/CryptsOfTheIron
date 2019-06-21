@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 
 public abstract class Controller implements Initializable {
     private Stage primaryStage;
-    private String userID;
+    private int userID;
     @FXML
     public Pane container;
 
@@ -21,51 +21,66 @@ public abstract class Controller implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("login.fxml"));
         Parent root = fxmlLoader.load();
+        Controller controller = fxmlLoader.getController();
+        controller.setPrimaryStage(this.primaryStage);
+        controller.setUserID(this.userID);
         this.primaryStage.setTitle("Crypts Of the Angry Irons - Login");
         this.primaryStage.getScene().setRoot(root);
-        ((Controller) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
-        ((Controller) fxmlLoader.getController()).setUserID(this.userID);
     }
 
     public final void getGamesPage() throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("games.fxml"));
         Parent root = fxmlLoader.load();
+        Controller controller = fxmlLoader.getController();
+        controller.setPrimaryStage(this.primaryStage);
+        controller.setUserID(this.userID);
         this.primaryStage.setTitle("Crypts Of the Angry Irons - Games");
         this.primaryStage.getScene().setRoot(root);
-        ((Controller) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
-        ((Controller) fxmlLoader.getController()).setUserID(this.userID);
     }
 
     public final void getSignInPage() throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("signup.fxml"));
         Parent root = fxmlLoader.load();
+        Controller controller = fxmlLoader.getController();
+        controller.setPrimaryStage(this.primaryStage);
+        controller.setUserID(this.userID);
         this.primaryStage.setTitle("Crypts Of the Angry Irons - Sign Up");
         this.primaryStage.getScene().setRoot(root);
-        ((Controller) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
-        ((Controller) fxmlLoader.getController()).setUserID(this.userID);
     }
 
     public final void getHomePage() throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("homepage.fxml"));
         Parent root = fxmlLoader.load();
+        Controller controller = fxmlLoader.getController();
+        controller.setPrimaryStage(this.primaryStage);
+        controller.setUserID(this.userID);
         this.primaryStage.setTitle("Crypts Of the Angry Irons");
         this.primaryStage.getScene().setRoot(root);
-        ((Controller) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
-        ((Controller) fxmlLoader.getController()).setUserID(this.userID);
+    }
+
+    public final void getHangMan() throws Exception {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("HangMan.fxml"));
+        Parent root = fxmlLoader.load();
+        Controller controller = fxmlLoader.getController();
+        controller.setPrimaryStage(this.primaryStage);
+        controller.setUserID(this.userID);
+        this.primaryStage.setTitle("Crypts Of the Angry Irons - Hang Man");
+        this.primaryStage.getScene().setRoot(root);
     }
 
     public final void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
-    public final void setUserID(String newID){
+    public final void setUserID(int newID){
         this.userID = newID;
     }
 
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }
 

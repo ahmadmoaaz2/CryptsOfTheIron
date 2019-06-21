@@ -1,12 +1,7 @@
 package ca.crypts;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.paint.Paint;
-
+import javafx.scene.control.*;
 import java.net.URL;
 import java.sql.*;
 import java.util.ResourceBundle;
@@ -21,9 +16,10 @@ public class LoginController extends Controller implements Authenticates {
     public TextField userPasswordShown;
     @FXML
     public CheckBox shown;
-    private boolean rememberUser = false;
     @FXML
     public Label mainText;
+    @FXML
+    public CheckBox rememberUser;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -31,19 +27,21 @@ public class LoginController extends Controller implements Authenticates {
         userPasswordHidden.visibleProperty().bind(shown.selectedProperty().not());
         userPasswordShown.visibleProperty().bind(shown.selectedProperty());
         userPasswordHidden.textProperty().bindBidirectional(userPasswordShown.textProperty());
-        if (getUserID() != null) {
-            try {
-                Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + System.getProperty("user.dir") + "/appData.db");
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * from users where ID=" + getUserID());
-                resultSet.next();
-                userName.setText(resultSet.getString("NAME"));
-                userPasswordHidden.setText(Encrypter.decrypt(resultSet.getString("PASSWORD")));
-                statement.close();
-                connection.close();
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + System.getProperty("user.dir") + "/appData.db");
+            Statement statement = connection.createStatement();
+            ResultSet rememberUserFromSettings = statement.executeQuery("SELECT * from settings");
+            if (rememberUserFromSettings.getBoolean("rememberUser")) {
+                int usersID = rememberUserFromSettings.getInt("ID");
+                ResultSet userDetails = statement.executeQuery("SELECT * from users where ID="+usersID);
+                userName.setText(userDetails.getString("NAME"));
+                userPasswordHidden.setText(Encrypter.decrypt(userDetails.getString("PASSWORD")));
+                rememberUser.setSelected(true);
             }
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -53,24 +51,54 @@ public class LoginController extends Controller implements Authenticates {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * from users");
         boolean matches = false;
+        MutableInt foundID = new MutableInt();
+        foundID.setValue(0);
         while (resultSet.next()) {
             if (resultSet.getString("NAME").equals(userName.getText()) &&
                     Encrypter.decrypt(resultSet.getString("PASSWORD")).equals(userPasswordHidden.getText())) {
+                foundID.setValue(resultSet.getInt("ID"));
                 matches = true;
                 break;
             }
         }
-        if (matches) getGamesPage();
-        else {
-            mainText.setText("No Matching Users, Try Again");
-            mainText.setTextFill(Paint.valueOf("red"));
+        if (matches) {
+            if (rememberUser.isSelected()) {
+                new Thread(() -> {
+                    try {
+                        ResultSet rememberUserFromSettings = statement.executeQuery("SELECT rememberUser FROM settings");
+                        if (rememberUserFromSettings.next() && !rememberUserFromSettings.getBoolean("rememberUser")) {
+                            statement.execute("UPDATE settings set rememberUser=true, ID=" + foundID.getValue() + " where rememberUser=false");
+                        } else if (rememberUserFromSettings.getBoolean("rememberUser")) {
+                            statement.execute("update settings set ID=" + foundID.getValue() + " where rememberUser=true");
+                        }
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }).start();
+            } else {
+                statement.execute("UPDATE settings set rememberUser=false");
+            }
+            getGamesPage();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error: No Matching Users");
+            alert.setHeaderText(null);
+            alert.setContentText("Account not Found. Please Try Again or Make an Account if you don't have one.");
+            alert.showAndWait();
         }
         statement.close();
         connection.close();
     }
+}
 
-    @Override
-    public void rememberUser() {
-        this.rememberUser = !rememberUser;
+class MutableInt {
+    private int value;
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }

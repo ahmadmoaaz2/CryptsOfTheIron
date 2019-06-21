@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.effect.DropShadow?>
-<BorderPane onMouseClicked="#getLoginPage" fx:id="container" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.">
+<BorderPane onMouseClicked="#getLoginPage" fx:id="container" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.crypts.HomeController">
     <top>
         <Label text="Crypts of The Angry Irons" textFill="white" BorderPane.alignment="TOP_CENTER">
             <effect>

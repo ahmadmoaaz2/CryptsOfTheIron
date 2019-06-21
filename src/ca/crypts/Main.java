@@ -17,7 +17,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        createTables();
         this.primaryStage = primaryStage;
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("homepage.fxml"));
@@ -29,13 +29,17 @@ public class Main extends Application {
         ((Controller) fxmlLoader.getController()).setPrimaryStage(this.primaryStage);
         Connection connection = DriverManager.getConnection("jdbc:sqlite:/" + System.getProperty("user.dir") + "/appData.db");
         Statement statement = connection.createStatement();
-        ResultSet rememberUserFromSettings = statement.executeQuery("SELECT rememberUser from settings");
-        rememberUserFromSettings.next();
-        if(rememberUserFromSettings.getBoolean("rememberUser")){
-            String usersID = rememberUserFromSettings.getString("ID");
-            ((Controller) fxmlLoader.getController()).setUserID(usersID);
+        ResultSet rememberUserFromSettings = statement.executeQuery("SELECT * from settings");
+        if(rememberUserFromSettings.next()) {
+            if (rememberUserFromSettings.getBoolean("rememberUser")) {
+                int usersID = rememberUserFromSettings.getInt("ID");
+                ((Controller) fxmlLoader.getController()).setUserID(usersID);
+            } else {
+                ((Controller) fxmlLoader.getController()).setUserID(0);
+            }
         } else {
-            ((Controller) fxmlLoader.getController()).setUserID(null);
+            statement.execute("INSERT INTO settings (rememberUser) VALUES (false)");
+            ((Controller) fxmlLoader.getController()).setUserID(0);
         }
         statement.close();
         connection.close();
@@ -59,7 +63,6 @@ public class Main extends Application {
                         " rememberUser BOOLEAN NOT NULL," +
                         " ID INTEGER, FOREIGN KEY (ID) REFERENCES users(ID));"
         );
-        statement.execute("INSERT INTO settings (rememberUser) VALUES (false)");
         statement.close();
         connection.close();
     }
