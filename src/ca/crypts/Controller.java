@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -72,6 +73,30 @@ public abstract class Controller implements Initializable {
         this.primaryStage.getScene().setRoot(root);
     }
 
+    public final void getBoxRun() throws Exception {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("boxrun.fxml"));
+        Parent root = fxmlLoader.load();
+        Controller controller = fxmlLoader.getController();
+        controller.setPrimaryStage(this.primaryStage);
+        controller.setUserID(this.userID);
+        this.primaryStage.setTitle("Crypts Of the Angry Irons - Box Run");
+        this.primaryStage.setHeight(497);
+        this.primaryStage.setWidth(914);
+        this.primaryStage.getScene().setRoot(root);
+    }
+
+    public final void getTicTacToe() throws Exception {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("tictactoe.fxml"));
+        Parent root = fxmlLoader.load();
+        Controller controller = fxmlLoader.getController();
+        controller.setPrimaryStage(this.primaryStage);
+        controller.setUserID(this.userID);
+        this.primaryStage.setTitle("Crypts Of the Angry Irons - Tic Tac Toe");
+        this.primaryStage.getScene().setRoot(root);
+    }
+
     public final void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
@@ -85,7 +110,7 @@ public abstract class Controller implements Initializable {
     }
 
     public Stage getPrimaryStage() {
-        return primaryStage;
+        return this.primaryStage;
     }
 
     @Override

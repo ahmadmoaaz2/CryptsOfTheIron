@@ -13,9 +13,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventTarget;
-import org.w3c.dom.events.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,20 +26,25 @@ public class HangManController extends Controller {
     public FlowPane containerForGameWord;
     private GameWord gameWord;
     private String currImage = "hangman1";
-    private Image hangman1 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/591421476545232900/unknown.png");
-    private Image hangman2 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/591422397324722206/unknown.png");
-    private Image hangman3 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/591422738519031822/unknown.png");
-    private Image hangman4 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/591422870622699541/unknown.png");
-    private Image hangman5 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/591422995298386022/unknown.png");
-    private Image hangman6 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/591423127016177674/unknown.png");
-    private Image hangman7 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/591423257215893505/unknown.png");
-    private Image hangman8 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/591423375759376395/unknown.png");
+    private Image hangman1 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/592208340806008842/First.png");
+    private Image hangman2 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/592211430413959191/123123.png");
+    private Image hangman3 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/592214872742166548/123123123.png");
+    private Image hangman4 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/592228827925577748/1.png");
+    private Image hangman5 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/592215930453622784/Second.png");
+    private Image hangman6 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/592222834055446539/t.png");
+    private Image hangman7 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/592225302826975233/w.png");
+    private Image hangman8 = new Image("https://cdn.discordapp.com/attachments/491108547606609945/592226890698457118/5.png");
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        super.initialize(url, resourceBundle);
+        BackgroundImage BI = new BackgroundImage(
+                new Image("https://media.discordapp.net/attachments/491108547606609945/592207086964703253/621153.png?width=994&height=560"),
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                BackgroundSize.DEFAULT);
+        container.setBackground(new Background(BI));
         hangmanImage.setImage(hangman1);
-        containerForGameWord.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         GameWord[] gameWords = new GameWord[]{
                 new GameWord("Elephant", "Smart animal that has an incredible memory"),
                 new GameWord("Mitochondria", "Powerhouse of the cell"),
@@ -62,7 +64,7 @@ public class HangManController extends Controller {
                 new GameWord("Espionage", "The practice of spying or of using spies"),
                 new GameWord("Witchcraft", "A practice magic, especially black magic"),
                 new GameWord("Rickshaw", "A light two-wheeled hooded vehicle drawn by one or more people, used chiefly in Asian countries."),
-                new GameWord("Pneumonia", "Pneumonia is an infection of the lungs caused by bacteria, viruses, fungi, or parasites"),
+                new GameWord("Pneumonia", "An infection of the lungs caused by bacteria, viruses, fungi, or parasites"),
                 new GameWord("Jawbreaker", "A famous large, hard, spherical candy"),
                 new GameWord("Grogginess", "A state of feeling dizzy and confused"),
                 new GameWord("Bandwagon", "When you became a Raptors fan when GSW lost in NBA finals"),
@@ -72,7 +74,7 @@ public class HangManController extends Controller {
                 new GameWord("Schnapps", "A strong alcoholic drink resembling gin and often flavoured with fruit"),
                 new GameWord("Whizzing", "Move quickly through the air with a whistling or whooshing sound"),
                 new GameWord("Triphthong", "A union of three vowels pronounced in one syllable"),
-                new GameWord("Snazzy", "Stylish of attractive"),
+                new GameWord("Snazzy", "Stylish or attractive"),
                 new GameWord("Mnemonic", "A device such as a pattern of letters, ideas, or associations that assists in remembering"),
                 new GameWord("Larynx", "Another name for the voice box"),
                 new GameWord("Marquis", "A nobleman ranking above a count and below a duke"),
@@ -162,7 +164,7 @@ public class HangManController extends Controller {
             if(Integer.parseInt(chances.getText()) == 0) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Hangman: Game Over");
-                alert.setHeaderText("Sorry you SUCK. CUZ UR BAD");
+                alert.setHeaderText("Sorry you Lost. Try again next time.");
                 alert.setContentText("The word was " + gameWord.getWord());
                 alert.showAndWait();
                 getHangMan();

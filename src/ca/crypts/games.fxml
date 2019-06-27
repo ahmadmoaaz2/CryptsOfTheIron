@@ -12,12 +12,13 @@
 <GridPane fx:id="container" alignment="CENTER" hgap="50.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.crypts.GamesController">
    <children>
-      <BorderPane GridPane.columnIndex="0">
+      <BorderPane GridPane.columnIndex="0" onMouseClicked="#getHangMan">
          <top>
             <Label text="Hang Man" textFill="white" BorderPane.alignment="TOP_CENTER">
                <BorderPane.margin>
                   <Insets bottom="10.0" />
-               </BorderPane.margin></Label>
+               </BorderPane.margin>
+            </Label>
          </top>
          <center>
             <ImageView fx:id="image1" fitHeight="90" fitWidth="90" preserveRatio="true" BorderPane.alignment="CENTER" />
@@ -30,7 +31,7 @@
                </BorderPane.margin></Button>
          </bottom>
       </BorderPane>
-      <BorderPane GridPane.columnIndex="1">
+      <BorderPane GridPane.columnIndex="1" onMouseClicked="#getBoxRun">
          <top>
             <Label text="Box Run" textFill="white" BorderPane.alignment="TOP_CENTER"/>
          </top>
@@ -38,10 +39,11 @@
             <ImageView fx:id="image2" fitHeight="90" fitWidth="90" preserveRatio="true" BorderPane.alignment="CENTER" />
          </center>
          <bottom>
-            <Button style="-fx-background-color: #007bff;" text="Play" textFill="white" BorderPane.alignment="BOTTOM_CENTER" />
+            <Button style="-fx-background-color: #007bff;" text="Play" textFill="white" BorderPane.alignment="BOTTOM_CENTER"
+                    onMouseClicked="#getBoxRun"/>
          </bottom>
       </BorderPane>
-      <BorderPane GridPane.columnIndex="2">
+      <BorderPane GridPane.columnIndex="2" onMouseClicked="#getTicTacToe">
          <top>
             <Label text="Tic Tac Toe" textFill="white" BorderPane.alignment="TOP_CENTER" />
          </top>
@@ -49,7 +51,7 @@
             <ImageView fx:id="image3" fitHeight="90" fitWidth="90" preserveRatio="true" BorderPane.alignment="CENTER" />
          </center>
          <bottom>
-            <Button style="-fx-background-color: #007bff;" text="Play" textFill="white" BorderPane.alignment="BOTTOM_CENTER" />
+            <Button style="-fx-background-color: #007bff;" text="Play" textFill="white" BorderPane.alignment="BOTTOM_CENTER"  onMouseClicked="#getTicTacToe"/>
          </bottom>
       </BorderPane>
    </children>
