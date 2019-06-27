@@ -4,4 +4,10 @@
 
 ## Getting Started
 
-### Dependencies
+### Prerequisites
+
+### Setup
+
+## Authors
+
+
