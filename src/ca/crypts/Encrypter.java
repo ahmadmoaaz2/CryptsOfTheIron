@@ -141,5 +141,4 @@ public class Encrypter {
         }
         return copyOfArray;
     }
-// TODO: 6/14/2019 CHANGE LENGTH OF STRING IN ENCRYPTED LISTS
 }

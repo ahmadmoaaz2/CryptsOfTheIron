@@ -22,17 +22,17 @@
     </FlowPane>
     <GridPane fx:id="container3" alignment="CENTER" visible="false" hgap="10" vgap="10" prefWidth="900"
               prefHeight="460">
-        <ImageView fx:id="topRight" onMouseClicked="#handleAction" GridPane.columnIndex="0" GridPane.rowIndex="0"
+        <ImageView fx:id="topRight" onMouseClicked="#handleAction" GridPane.columnIndex="2" GridPane.rowIndex="0"
                    fitWidth="125" fitHeight="126"/>
         <ImageView fx:id="topCenter" onMouseClicked="#handleAction" GridPane.columnIndex="1" GridPane.rowIndex="0"
                    fitWidth="125" fitHeight="126"/>
-        <ImageView fx:id="topLeft" onMouseClicked="#handleAction" GridPane.columnIndex="2" GridPane.rowIndex="0"
+        <ImageView fx:id="topLeft" onMouseClicked="#handleAction" GridPane.columnIndex="0" GridPane.rowIndex="0"
                    fitWidth="125" fitHeight="126"/>
-        <ImageView fx:id="middleRight" onMouseClicked="#handleAction" GridPane.columnIndex="0" GridPane.rowIndex="1"
+        <ImageView fx:id="middleRight" onMouseClicked="#handleAction" GridPane.columnIndex="2" GridPane.rowIndex="1"
                    fitWidth="125" fitHeight="126"/>
         <ImageView fx:id="middleCenter" onMouseClicked="#handleAction" GridPane.columnIndex="1" GridPane.rowIndex="1"
                    fitWidth="125" fitHeight="126"/>
-        <ImageView fx:id="middleLeft" onMouseClicked="#handleAction" GridPane.columnIndex="2" GridPane.rowIndex="1"
+        <ImageView fx:id="middleLeft" onMouseClicked="#handleAction" GridPane.columnIndex="0" GridPane.rowIndex="1"
                    fitWidth="125" fitHeight="126"/>
         <ImageView fx:id="bottomRight" onMouseClicked="#handleAction" GridPane.columnIndex="2" GridPane.rowIndex="2"
                    fitWidth="125" fitHeight="126"/>
